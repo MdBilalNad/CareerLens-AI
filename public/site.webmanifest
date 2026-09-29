@@ -1,0 +1,21 @@
+{
+  "name": "CareerLens",
+  "short_name": "CareerLens",
+  "description": "Resume analyzer and career prediction web app for students and early-career job seekers.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#111827",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

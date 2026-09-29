@@ -1,0 +1,6 @@
+{
+  "name": "CareerLens",
+  "description": "Resume analyzer and career prediction app for students and early-career job seekers. Get deterministic ATS scoring, gap analysis, and tailored career roadmaps.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
