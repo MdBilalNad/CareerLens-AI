@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Allow: /how-it-works
+Allow: /privacy
+Allow: /terms
+Disallow: /dashboard
+Disallow: /settings
+Disallow: /analysis
+
+Sitemap: https://careerlens.example.com/sitemap.xml
