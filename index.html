@@ -8,120 +8,61 @@
       content="width=device-width, initial-scale=1.0"
     />
 
+    <meta
+      name="description"
+      content="CareerLens - AI-powered Resume Analyzer, Career Predictor and Personalized Career Roadmap Generator."
+    />
+
+    <meta
+      name="keywords"
+      content="CareerLens, resume analyzer, AI career predictor, career roadmap, resume analysis, career guidance"
+    />
+
+    <meta name="author" content="CareerLens Team" />
+
+    <meta name="theme-color" content="#0f172a" />
+
     <title>
       CareerLens - Resume Analyzer and Career Roadmaps
     </title>
 
+    <!-- Open Graph -->
     <meta
-      name="description"
-      content="Upload your resume. See your ATS score, your gaps, and the roles you fit. Deterministic ATS scoring and phased career roadmaps for students and early-career candidates."
-    />
-
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="/CareerLens-AI/favicon.svg"
-    />
-
-    <link
-      rel="icon"
-      type="image/x-icon"
-      href="/CareerLens-AI/favicon.ico"
-    />
-
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="/CareerLens-AI/apple-touch-icon.png"
-    />
-
-    <link
-      rel="manifest"
-      href="/CareerLens-AI/site.webmanifest"
+      property="og:title"
+      content="CareerLens - AI Resume Analyzer & Career Roadmaps"
     />
 
     <meta
-      name="theme-color"
-      content="#111827"
+      property="og:description"
+      content="Analyze your resume, discover suitable career paths, and generate personalized career roadmaps with CareerLens."
     />
 
-    <!-- OpenGraph -->
     <meta
       property="og:type"
       content="website"
     />
 
     <meta
-      property="og:site_name"
-      content="CareerLens"
+      property="og:url"
+      content="https://mdbilalnad.github.io/CareerLens-AI/"
     />
 
-    <meta
-      property="og:title"
-      content="CareerLens - Resume Analyzer and Career Roadmaps"
-    />
-
-    <meta
-      property="og:description"
-      content="Upload your resume. See your ATS score, your gaps, and the roles you fit."
-    />
-
-    <meta
-      property="og:image"
-      content="/CareerLens-AI/og-image.png"
-    />
-
-    <!-- Twitter -->
-    <meta
-      name="twitter:card"
-      content="summary_large_image"
-    />
-
-    <meta
-      name="twitter:title"
-      content="CareerLens - Resume Analyzer and Career Roadmaps"
-    />
-
-    <meta
-      name="twitter:description"
-      content="Upload your resume. See your ATS score, your gaps, and the roles you fit."
-    />
-
-    <meta
-      name="twitter:image"
-      content="/CareerLens-AI/og-image.png"
-    />
-
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "CareerLens",
-        "applicationCategory": "BusinessApplication",
-        "operatingSystem": "All",
-        "description": "Deterministic ATS resume evaluation, gap identification, and phased career roadmaps for students and early-career job seekers.",
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "USD"
-        }
-      }
-    </script>
-  </head>
-
-  <body>
-    <div id="root"></div>
-
-    <!-- IMPORTANT:
-         Keep this as the normal source path.
-         Vite will automatically apply:
-         /CareerLens-AI/
-         during production build.
+    <!--
+      IMPORTANT:
+      Do not use /CareerLens-AI/src/main.tsx here.
+      Vite automatically applies the configured base path during build.
     -->
     <script
       type="module"
       src="/src/main.tsx"
     ></script>
+  </head>
+
+  <body>
+    <noscript>
+      You need to enable JavaScript to run CareerLens.
+    </noscript>
+
+    <div id="root"></div>
   </body>
 </html>
