@@ -1,23 +1,24 @@
-import tailwindcss from '@tailwindcss/vite';
-import react from '@vitejs/plugin-react';
 import path from 'path';
 import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 
-export default defineConfig(() => {
-  return {
-    base: '/CareerLens-AI/',
+export default defineConfig({
+  base: '/CareerLens-AI/',
+  
+  plugins: [
+    react(),
+    tailwindcss(),
+  ],
 
-    plugins: [react(), tailwindcss()],
-
-    resolve: {
-      alias: {
-        '@': path.resolve(import.meta.dirname, '.'),
-      },
+  resolve: {
+    alias: {
+      '@': path.resolve(import.meta.dirname, '.'),
     },
+  },
 
-    server: {
-      hmr: process.env.DISABLE_HMR !== 'true',
-      watch: process.env.DISABLE_HMR === 'true' ? null : {},
-    },
-  };
+  server: {
+    hmr: process.env.DISABLE_HMR !== 'true',
+    watch: process.env.DISABLE_HMR === 'true' ? null : {},
+  },
 });
