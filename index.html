@@ -2,58 +2,151 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CareerLens - Resume Analyzer and Career Roadmaps</title>
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+
+    <title>
+      CareerLens - Resume Analyzer and Career Roadmaps
+    </title>
+
     <meta
       name="description"
       content="Upload your resume. See your ATS score, your gaps, and the roles you fit. Deterministic ATS scoring and phased career roadmaps for students and early-career candidates."
     />
 
+    <!--
+      GitHub Pages SPA route recovery.
+
+      When someone directly opens:
+      /CareerLens-AI/dashboard
+
+      GitHub Pages may first serve 404.html.
+
+      404.html redirects back to the application root
+      with the original path stored in ?redirect=...
+    -->
+
+    <script>
+      (function () {
+        const params = new URLSearchParams(
+          window.location.search
+        );
+
+        const redirectPath = params.get('redirect');
+
+        if (redirectPath) {
+          window.history.replaceState(
+            null,
+            '',
+            redirectPath
+          );
+        }
+      })();
+    </script>
+
     <!-- Favicon Set -->
-    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-    <link rel="icon" type="image/x-icon" href="./favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" />
-    <link rel="manifest" href="./site.webmanifest" />
-    <meta name="theme-color" content="#111827" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/CareerLens-AI/favicon.svg"
+    />
+
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="/CareerLens-AI/favicon.ico"
+    />
+
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/CareerLens-AI/apple-touch-icon.png"
+    />
+
+    <link
+      rel="manifest"
+      href="/CareerLens-AI/site.webmanifest"
+    />
+
+    <meta
+      name="theme-color"
+      content="#111827"
+    />
 
     <!-- OpenGraph Tags -->
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="CareerLens" />
-    <meta property="og:title" content="CareerLens - Resume Analyzer and Career Roadmaps" />
+    <meta
+      property="og:type"
+      content="website"
+    />
+
+    <meta
+      property="og:site_name"
+      content="CareerLens"
+    />
+
+    <meta
+      property="og:title"
+      content="CareerLens - Resume Analyzer and Career Roadmaps"
+    />
+
     <meta
       property="og:description"
       content="Upload your resume. See your ATS score, your gaps, and the roles you fit. Deterministic ATS scoring and phased career roadmaps for students and early-career candidates."
     />
-    <meta property="og:image" content="./og-image.png" />
+
+    <meta
+      property="og:image"
+      content="/CareerLens-AI/og-image.png"
+    />
 
     <!-- Twitter Card Tags -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="CareerLens - Resume Analyzer and Career Roadmaps" />
+    <meta
+      name="twitter:card"
+      content="summary_large_image"
+    />
+
+    <meta
+      name="twitter:title"
+      content="CareerLens - Resume Analyzer and Career Roadmaps"
+    />
+
     <meta
       name="twitter:description"
       content="Upload your resume. See your ATS score, your gaps, and the roles you fit. Deterministic ATS scoring and phased career roadmaps for students and early-career candidates."
     />
-    <meta name="twitter:image" content="/og-image.png" />
 
-    <!-- Structured Data (JSON-LD) -->
+    <meta
+      name="twitter:image"
+      content="/CareerLens-AI/og-image.png"
+    />
+
+    <!-- Structured Data -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "CareerLens",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "All",
-      "description": "Deterministic ATS resume evaluation, gap identification, and phased career roadmaps for students and early-career job seekers.",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "CareerLens",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "All",
+        "description": "Deterministic ATS resume evaluation, gap identification, and phased career roadmaps for students and early-career job seekers.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
       }
-    }
     </script>
   </head>
+
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+
+    <script
+      type="module"
+      src="/CareerLens-AI/src/main.tsx"
+    ></script>
   </body>
 </html>

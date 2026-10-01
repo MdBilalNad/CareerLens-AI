@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+
+    <title>CareerLens</title>
+
+    <script>
+      (function () {
+        const basePath = '/CareerLens-AI';
+
+        const currentPath =
+          window.location.pathname;
+
+        const currentSearch =
+          window.location.search;
+
+        const currentHash =
+          window.location.hash;
+
+        /*
+         * If GitHub Pages sends us here because a client-side
+         * route does not physically exist, send the user back
+         * to the application's root while preserving the
+         * original URL.
+         */
+
+        const redirectTarget =
+          currentPath +
+          currentSearch +
+          currentHash;
+
+        const redirectUrl =
+          basePath +
+          '/?redirect=' +
+          encodeURIComponent(
+            redirectTarget
+          );
+
+        window.location.replace(
+          redirectUrl
+        );
+      })();
+    </script>
+  </head>
+
+  <body>
+    <p>Loading CareerLens...</p>
+  </body>
+</html>
