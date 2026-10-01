@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import { AuthProvider } from './context/AuthContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { LandingPage } from './pages/LandingPage';
@@ -17,55 +17,115 @@ import { getAnalyses } from './services/storage';
 import { APP_NAME } from './config/app';
 
 function AppContent() {
-  const { user } = useAuth();
-
-  /**
-   * Vite automatically provides BASE_URL from vite.config.ts.
+  /*
+   * Vite gives us the production base URL from vite.config.ts.
    *
    * For GitHub Pages:
-   * BASE_URL = "/CareerLens-AI/"
    *
-   * Internally, our application still uses routes such as:
-   * /
-   * /upload
-   * /dashboard
-   * /analysis
+   * import.meta.env.BASE_URL
+   * = "/CareerLens-AI/"
+   *
+   * We remove the final "/" so that BASE_PATH becomes:
+   *
+   * "/CareerLens-AI"
    */
-
   const BASE_PATH = import.meta.env.BASE_URL.replace(/\/$/, '');
 
   /**
-   * Convert the real browser URL into the application's internal route.
+   * Converts the real browser URL into the internal
+   * application route.
    *
-   * Example:
+   * GitHub Pages URL:
    *
-   * Browser:
    * /CareerLens-AI/dashboard
    *
-   * Internal app route:
+   * Internal React route:
+   *
    * /dashboard
+   *
+   * It also handles the GitHub Pages 404.html redirect.
    */
   const getAppPath = () => {
+    const url = new URL(window.location.href);
+
+    /*
+     * If public/404.html redirected the user here,
+     * it will contain:
+     *
+     * ?redirect=/CareerLens-AI/dashboard
+     */
+    const redirect = url.searchParams.get('redirect');
+
+    if (redirect) {
+      let redirectedPath = redirect;
+
+      /*
+       * Remove /CareerLens-AI from the redirected path.
+       */
+      if (
+        BASE_PATH &&
+        redirectedPath.startsWith(BASE_PATH)
+      ) {
+        redirectedPath = redirectedPath.slice(
+          BASE_PATH.length
+        );
+      }
+
+      /*
+       * Make sure the internal route starts with "/".
+       */
+      if (!redirectedPath) {
+        redirectedPath = '/';
+      }
+
+      if (!redirectedPath.startsWith('/')) {
+        redirectedPath = `/${redirectedPath}`;
+      }
+
+      return redirectedPath;
+    }
+
+    /*
+     * Normal GitHub Pages URL.
+     *
+     * Example:
+     *
+     * /CareerLens-AI/dashboard
+     *
+     * becomes:
+     *
+     * /dashboard
+     */
     const pathname = window.location.pathname;
 
-    if (BASE_PATH && pathname.startsWith(BASE_PATH)) {
-      const appPath = pathname.slice(BASE_PATH.length);
+    if (
+      BASE_PATH &&
+      pathname.startsWith(BASE_PATH)
+    ) {
+      const appPath = pathname.slice(
+        BASE_PATH.length
+      );
 
       return appPath || '/';
     }
 
+    /*
+     * Local development fallback.
+     */
     return pathname || '/';
   };
 
-  const [currentPath, setCurrentPath] = useState<string>(() => {
-    return getAppPath();
-  });
+  const [currentPath, setCurrentPath] = useState<string>(
+    () => getAppPath()
+  );
 
   const [activeAnalysis, setActiveAnalysis] =
     useState<ATSAnalysisResult | null>(() => {
       const list = getAnalyses();
 
-      return list.length > 0 ? list[0] : null;
+      return list.length > 0
+        ? list[0]
+        : null;
     });
 
   /**
@@ -76,17 +136,56 @@ function AppContent() {
       setCurrentPath(getAppPath());
     };
 
-    window.addEventListener('popstate', handlePopState);
+    window.addEventListener(
+      'popstate',
+      handlePopState
+    );
 
     return () => {
-      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener(
+        'popstate',
+        handlePopState
+      );
     };
   }, []);
 
   /**
-   * Internal application navigation.
+   * Clean up the temporary GitHub Pages
+   * ?redirect=... query parameter.
    *
    * Example:
+   *
+   * /CareerLens-AI/?redirect=%2FCareerLens-AI%2Fdashboard
+   *
+   * becomes:
+   *
+   * /CareerLens-AI/dashboard
+   */
+  useEffect(() => {
+    const url = new URL(window.location.href);
+
+    if (url.searchParams.has('redirect')) {
+      const appPath = getAppPath();
+
+      const cleanUrl =
+        appPath === '/'
+          ? `${BASE_PATH}/`
+          : `${BASE_PATH}${appPath}`;
+
+      window.history.replaceState(
+        {},
+        '',
+        cleanUrl
+      );
+
+      setCurrentPath(appPath);
+    }
+  }, []);
+
+  /**
+   * Application navigation.
+   *
+   * Internal:
    *
    * navigate('/dashboard')
    *
@@ -97,29 +196,40 @@ function AppContent() {
    * on GitHub Pages.
    */
   const navigate = (path: string) => {
-    if (path !== currentPath) {
-      const targetPath =
-        path === '/'
-          ? `${BASE_PATH}/`
-          : `${BASE_PATH}${path}`;
-
-      window.history.pushState({}, '', targetPath);
-
-      setCurrentPath(path);
-
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      });
+    if (path === currentPath) {
+      return;
     }
+
+    const targetPath =
+      path === '/'
+        ? `${BASE_PATH}/`
+        : `${BASE_PATH}${path}`;
+
+    window.history.pushState(
+      {},
+      '',
+      targetPath
+    );
+
+    setCurrentPath(path);
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
   /**
-   * Synchronize document title and robot meta tags.
+   * Synchronize browser title and robots meta tag.
    */
   useEffect(() => {
-    let title = `${APP_NAME} - Resume Analysis and Career Roadmaps`;
+    let title =
+      `${APP_NAME} - Resume Analysis and Career Roadmaps`;
 
+    /*
+     * Pages containing user/application data
+     * should not be indexed.
+     */
     const isAuthPage = [
       '/dashboard',
       '/settings',
@@ -132,7 +242,9 @@ function AppContent() {
       title = `Analysis Results - ${APP_NAME}`;
     } else if (currentPath === '/dashboard') {
       title = `Dashboard - ${APP_NAME}`;
-    } else if (currentPath === '/how-it-works') {
+    } else if (
+      currentPath === '/how-it-works'
+    ) {
       title = `How Scoring Works - ${APP_NAME}`;
     } else if (currentPath === '/settings') {
       title = `Account Settings - ${APP_NAME}`;
@@ -140,27 +252,36 @@ function AppContent() {
       title = `Log In - ${APP_NAME}`;
     } else if (currentPath === '/signup') {
       title = `Sign Up - ${APP_NAME}`;
+    } else if (
+      currentPath === '/forgot-password'
+    ) {
+      title = `Forgot Password - ${APP_NAME}`;
     } else if (currentPath === '/privacy') {
       title = `Privacy Policy - ${APP_NAME}`;
     } else if (currentPath === '/terms') {
-      title = `Terms and Conditions - ${APP_NAME}`;
+      title =
+        `Terms and Conditions - ${APP_NAME}`;
     }
 
     document.title = title;
 
-    /**
-     * Authenticated/private pages should not be indexed.
+    /*
+     * Create robots meta tag if it doesn't already exist.
      */
-    let robotsMeta = document.querySelector(
-      'meta[name="robots"]'
-    ) as HTMLMetaElement | null;
+    let robotsMeta =
+      document.querySelector(
+        'meta[name="robots"]'
+      ) as HTMLMetaElement | null;
 
     if (!robotsMeta) {
-      robotsMeta = document.createElement('meta');
+      robotsMeta =
+        document.createElement('meta');
 
       robotsMeta.name = 'robots';
 
-      document.head.appendChild(robotsMeta);
+      document.head.appendChild(
+        robotsMeta
+      );
     }
 
     robotsMeta.content = isAuthPage
@@ -169,7 +290,7 @@ function AppContent() {
   }, [currentPath]);
 
   /**
-   * Store completed resume analysis.
+   * Called when resume analysis is completed.
    */
   const handleAnalysisComplete = (
     result: ATSAnalysisResult
@@ -178,7 +299,7 @@ function AppContent() {
   };
 
   /**
-   * Application routes.
+   * Application route handling.
    */
   const renderRoute = () => {
     switch (currentPath) {
@@ -192,7 +313,9 @@ function AppContent() {
       case '/upload':
         return (
           <UploadPage
-            onAnalysisComplete={handleAnalysisComplete}
+            onAnalysisComplete={
+              handleAnalysisComplete
+            }
             navigate={navigate}
           />
         );

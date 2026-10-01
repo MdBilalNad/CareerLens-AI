@@ -17,37 +17,6 @@
       content="Upload your resume. See your ATS score, your gaps, and the roles you fit. Deterministic ATS scoring and phased career roadmaps for students and early-career candidates."
     />
 
-    <!--
-      GitHub Pages SPA route recovery.
-
-      When someone directly opens:
-      /CareerLens-AI/dashboard
-
-      GitHub Pages may first serve 404.html.
-
-      404.html redirects back to the application root
-      with the original path stored in ?redirect=...
-    -->
-
-    <script>
-      (function () {
-        const params = new URLSearchParams(
-          window.location.search
-        );
-
-        const redirectPath = params.get('redirect');
-
-        if (redirectPath) {
-          window.history.replaceState(
-            null,
-            '',
-            redirectPath
-          );
-        }
-      })();
-    </script>
-
-    <!-- Favicon Set -->
     <link
       rel="icon"
       type="image/svg+xml"
@@ -76,7 +45,7 @@
       content="#111827"
     />
 
-    <!-- OpenGraph Tags -->
+    <!-- OpenGraph -->
     <meta
       property="og:type"
       content="website"
@@ -94,7 +63,7 @@
 
     <meta
       property="og:description"
-      content="Upload your resume. See your ATS score, your gaps, and the roles you fit. Deterministic ATS scoring and phased career roadmaps for students and early-career candidates."
+      content="Upload your resume. See your ATS score, your gaps, and the roles you fit."
     />
 
     <meta
@@ -102,7 +71,7 @@
       content="/CareerLens-AI/og-image.png"
     />
 
-    <!-- Twitter Card Tags -->
+    <!-- Twitter -->
     <meta
       name="twitter:card"
       content="summary_large_image"
@@ -115,7 +84,7 @@
 
     <meta
       name="twitter:description"
-      content="Upload your resume. See your ATS score, your gaps, and the roles you fit. Deterministic ATS scoring and phased career roadmaps for students and early-career candidates."
+      content="Upload your resume. See your ATS score, your gaps, and the roles you fit."
     />
 
     <meta
@@ -144,9 +113,15 @@
   <body>
     <div id="root"></div>
 
+    <!-- IMPORTANT:
+         Keep this as the normal source path.
+         Vite will automatically apply:
+         /CareerLens-AI/
+         during production build.
+    -->
     <script
       type="module"
-      src="/CareerLens-AI/src/main.tsx"
+      src="/src/main.tsx"
     ></script>
   </body>
 </html>
